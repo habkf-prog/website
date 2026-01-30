@@ -7,122 +7,34 @@
 
 <style>
 :root{
-  --bg:#0b0f17;
-  --card:#ffffff10;
-  --line:#ffffff20;
-  --text:#e9eef7;
-  --muted:#b7bfd0;
-  --accent:#7c5cff;
-  --ok:#22c55e;
-  --radius:16px;
+  --bg:#0b0f17; --card:#ffffff10; --line:#ffffff20; --text:#e9eef7; --muted:#b7bfd0;
+  --accent:#7c5cff; --ok:#22c55e; --radius:16px;
 }
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial;
-  background:var(--bg);
-  color:var(--text);
-  padding:18px;
-}
-.card{
-  max-width:900px;
-  margin:auto;
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:18px;
-}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial;background:var(--bg);color:var(--text);padding:18px}
+.card{max-width:900px;margin:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
 h1{margin:0 0 6px}
 .muted{color:var(--muted);font-size:13px}
-
 label{display:block;margin-top:14px;font-weight:700}
-textarea,input{
-  width:100%;
-  padding:12px;
-  margin-top:6px;
-  border-radius:12px;
-  border:1px solid var(--line);
-  background:#00000040;
-  color:var(--text);
-}
+textarea,input{width:100%;padding:12px;margin-top:6px;border-radius:12px;border:1px solid var(--line);background:#00000040;color:var(--text)}
 textarea{min-height:130px}
-
 .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
 .row>*{flex:1;min-width:220px}
-
-button{
-  padding:12px;
-  border-radius:14px;
-  border:1px solid var(--accent);
-  background:linear-gradient(135deg,var(--accent),#4f46e5);
-  color:#fff;
-  font-weight:800;
-  cursor:pointer;
-}
+button{padding:12px;border-radius:14px;border:1px solid var(--accent);background:linear-gradient(135deg,var(--accent),#4f46e5);color:#fff;font-weight:800;cursor:pointer}
 button:disabled{opacity:.6}
-
 .progress-box{display:none;margin-top:14px}
-.progress{
-  height:14px;
-  background:#00000050;
-  border-radius:10px;
-  overflow:hidden;
-  border:1px solid var(--line);
-}
-.progress-bar{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,var(--accent),var(--ok));
-  transition:width .3s;
-}
+.progress{height:14px;background:#00000050;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--ok));transition:width .3s}
+.log{margin-top:14px;padding:12px;background:#00000040;border-radius:14px;border:1px solid var(--line);white-space:pre-wrap;font-size:13px}
 
-.log{
-  margin-top:14px;
-  padding:12px;
-  background:#00000040;
-  border-radius:14px;
-  border:1px solid var(--line);
-  white-space:pre-wrap;
-  font-size:13px;
-}
-
-/* ===== نافذة النجاح ===== */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-}
+/* نافذة النجاح */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:9999}
 .modal-content{
-  background:#0b0f17;
-  border:1px solid #22c55e55;
-  border-radius:20px;
-  padding:30px 40px;
-  text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,.5);
-  animation:successBounce .45s ease-out;
+  background:#0b0f17;border:1px solid #22c55e55;border-radius:20px;padding:30px 40px;text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);animation:successBounce .45s ease-out;
 }
-.checkmark{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  background:#22c55e;
-  color:#fff;
-  font-size:44px;
-  font-weight:900;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:0 auto 14px;
-}
-.modal-text{
-  font-size:16px;
-  font-weight:800;
-}
-
+.checkmark{width:80px;height:80px;border-radius:50%;background:#22c55e;color:#fff;font-size:44px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.modal-text{font-size:16px;font-weight:800}
 @keyframes successBounce{
   0%{transform:scale(.7);opacity:0}
   60%{transform:scale(1.05);opacity:1}
@@ -133,37 +45,33 @@ button:disabled{opacity:.6}
 </head>
 
 <body>
-
 <div class="card">
-<h1>📺 أداة دمج M3U</h1>
-<div class="muted">دمج روابط وملفات M3U مع شريط تقدّم</div>
+  <h1>📺 أداة دمج M3U</h1>
+  <div class="muted">دمج روابط وملفات M3U + تشخيص إذا كانت المصادر ليست M3U</div>
 
-<label>روابط M3U (كل رابط في سطر):</label>
-<textarea id="urls"></textarea>
+  <label>روابط M3U (كل رابط في سطر):</label>
+  <textarea id="urls" placeholder="ضع روابط RAW هنا..."></textarea>
 
-<label>أو اختر ملفات M3U:</label>
-<input type="file" id="files" multiple accept=".m3u,.m3u8">
+  <label>أو اختر ملفات M3U:</label>
+  <input type="file" id="files" multiple accept=".m3u,.m3u8,text/plain">
 
-<div class="row">
-<label><input type="checkbox" id="dedup" checked> حذف المكرر</label>
-<label><input type="checkbox" id="sort"> ترتيب أبجدي</label>
-</div>
-
-<div class="row">
-<input id="outname" value="merged.m3u">
-<button id="start">دمج وتنزيل</button>
-</div>
-
-<div class="progress-box" id="progressBox">
-  <div class="progress">
-    <div class="progress-bar" id="progressBar"></div>
+  <div class="row">
+    <label><input type="checkbox" id="dedup" checked> حذف المكرر</label>
+    <label><input type="checkbox" id="sort"> ترتيب أبجدي</label>
   </div>
+
+  <div class="row">
+    <input id="outname" value="merged.m3u">
+    <button id="start">دمج وتنزيل</button>
+  </div>
+
+  <div class="progress-box" id="progressBox">
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+  </div>
+
+  <div class="log" id="log">جاهز.</div>
 </div>
 
-<div class="log" id="log">جاهز.</div>
-</div>
-
-<!-- نافذة النجاح -->
 <div id="successModal" class="modal">
   <div class="modal-content">
     <div class="checkmark">✔</div>
@@ -173,26 +81,35 @@ button:disabled{opacity:.6}
 
 <script>
 const $ = id => document.getElementById(id);
-
 function log(msg){ $("log").textContent = msg; }
 function setProgress(p){ $("progressBar").style.width = p + "%"; }
 
+function looksLikeHTML(text){
+  const t = (text || "").trim().slice(0, 300).toLowerCase();
+  return t.startsWith("<!doctype html") || t.startsWith("<html") || t.includes("<head") || t.includes("<body");
+}
+function countExtinf(text){
+  const m = (text || "").match(/^#EXTINF:/gm);
+  return m ? m.length : 0;
+}
 function parseM3U(text){
-  const lines=text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  const lines = (text||"").split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
   let list=[], ext=null;
   for(const l of lines){
     if(l.startsWith("#EXTM3U")) continue;
     if(l.startsWith("#EXTINF")){ ext=l; continue; }
     if(l.startsWith("#")) continue;
-    list.push({ext:ext||"#EXTINF:-1,Unknown",url:l});
+
+    // ✅ نقبل الرابط حتى لو لا يوجد EXTINF
+    list.push({ext: ext || "#EXTINF:-1,Unknown", url:l});
     ext=null;
   }
   return list;
 }
 
 async function fetchText(url){
-  const r=await fetch(url);
-  if(!r.ok) throw new Error("HTTP "+r.status);
+  const r = await fetch(url);
+  if(!r.ok) throw new Error("HTTP " + r.status);
   return await r.text();
 }
 async function readFile(file){
@@ -207,7 +124,7 @@ function download(name,text){
   const blob=new Blob([text],{type:"audio/x-mpegurl;charset=utf-8"});
   const a=document.createElement("a");
   a.href=URL.createObjectURL(blob);
-  a.download=name;
+  a.download=(name && name.trim()) ? name.trim() : "merged.m3u";
   a.click();
   URL.revokeObjectURL(a.href);
 }
@@ -216,24 +133,49 @@ $("start").onclick = async ()=>{
   const urls=$("urls").value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
   const files=[...$("files").files];
   const total=urls.length+files.length;
-  if(!total){ log("⚠️ لا توجد مصادر."); return; }
+
+  if(!total){ log("⚠️ لا توجد مصادر. ضع روابط أو اختر ملفات."); return; }
 
   $("start").disabled=true;
   $("progressBox").style.display="block";
   setProgress(0);
 
   let entries=[], done=0, ok=0, fail=0;
+  let report = [];
 
   try{
     for(const u of urls){
-      try{ entries.push(...parseM3U(await fetchText(u))); ok++; }
-      catch{ fail++; }
+      try{
+        const t = await fetchText(u);
+        const extinfCount = countExtinf(t);
+        const isHtml = looksLikeHTML(t);
+        const parsed = parseM3U(t);
+        entries.push(...parsed);
+        ok++;
+        report.push(`✅ رابط نجح: ${u}\n   - EXTINF: ${extinfCount}\n   - Parsed URLs: ${parsed.length}\n   - HTML؟ ${isHtml ? "نعم" : "لا"}`);
+      }catch(e){
+        fail++;
+        report.push(`❌ رابط فشل: ${u}\n   - السبب: ${e.message}`);
+      }
       done++; setProgress(Math.round(done/total*100));
+      log(`⏳ جاري الدمج...\n✅ نجح: ${ok} | ❌ فشل: ${fail}\n📺 المستخرج حتى الآن: ${entries.length}`);
     }
+
     for(const f of files){
-      entries.push(...parseM3U(await readFile(f)));
+      const t = await readFile(f);
+      const extinfCount = countExtinf(t);
+      const isHtml = looksLikeHTML(t);
+      const parsed = parseM3U(t);
+      entries.push(...parsed);
+      report.push(`📄 ملف: ${f.name}\n   - EXTINF: ${extinfCount}\n   - Parsed URLs: ${parsed.length}\n   - HTML؟ ${isHtml ? "نعم" : "لا"}`);
       done++; setProgress(Math.round(done/total*100));
+      log(`⏳ جاري الدمج...\n✅ نجح: ${ok} | ❌ فشل: ${fail}\n📺 المستخرج حتى الآن: ${entries.length}`);
     }
+
+    // فلترة: نحتفظ فقط بما يشبه رابط (http/https/rtmp/rtsp/udp…)
+    const before = entries.length;
+    entries = entries.filter(e => /^(https?|rtmp|rtsp|udp):/i.test(e.url));
+    const filtered = before - entries.length;
 
     if($("dedup").checked){
       const s=new Set();
@@ -243,25 +185,43 @@ $("start").onclick = async ()=>{
       entries.sort((a,b)=>a.ext.localeCompare(b.ext));
     }
 
-    if(entries.length===0){ log("⚠️ لم يتم العثور على قنوات."); return; }
+    if(entries.length===0){
+      log(
+        "⚠️ لم يتم العثور على قنوات.\n\n" +
+        "الأسباب الأكثر شيوعًا:\n" +
+        "1) الرابط ليس RAW ويُرجع صفحة HTML.\n" +
+        "2) الرابط يتطلب صلاحيات أو محجوب.\n" +
+        "3) الملف ليس بصيغة M3U.\n\n" +
+        "تقرير التشخيص:\n" + report.join("\n\n")
+      );
+      return;
+    }
 
     let out="#EXTM3U\n";
-    entries.forEach(e=>out+=e.ext+"\n"+e.url+"\n");
+    for(const e of entries){
+      out += e.ext + "\n" + e.url + "\n";
+    }
 
-    log("✅ تمت عملية الدمج بنجاح\n📺 عدد القنوات: "+entries.length);
-    download($("outname").value||"merged.m3u",out);
+    log(
+      "✅ تمت عملية الدمج بنجاح\n" +
+      "📺 عدد القنوات: " + entries.length + "\n" +
+      "✅ روابط نجحت: " + ok + " | ❌ فشلت: " + fail + "\n" +
+      (filtered ? "🧹 تم حذف أسطر غير روابط: " + filtered + "\n" : "") +
+      "\n(إن أردت تفاصيل أكثر انسخ تقرير التشخيص من هنا.)"
+    );
+
+    download($("outname").value, out);
 
     const modal=$("successModal");
     modal.style.display="flex";
     setTimeout(()=>modal.style.display="none",2500);
 
   }catch(e){
-    log("❌ خطأ: "+e.message);
+    log("❌ خطأ عام: " + e.message);
   }finally{
     $("start").disabled=false;
   }
 };
 </script>
-
 </body>
 </html>
