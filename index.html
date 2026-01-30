@@ -1,261 +1,76 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>M3U Tool</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M3U Tool</title>
 
-  <!-- ========== CSS ========== -->
-  <style>
-    :root{
-      --bg:#0b0f17;
-      --card:rgba(255,255,255,.06);
-      --line:rgba(255,255,255,.12);
-      --text:#e9eef7;
-      --muted:#b7bfd0;
-      --accent:#7c5cff;
-      --ok:#22c55e;
-      --err:#ef4444;
-      --radius:16px;
-    }
-
-    *{box-sizing:border-box}
-
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial;
-      padding:18px;
-      color:var(--text);
-      background:
-        radial-gradient(1100px 600px at 80% -10%, rgba(124,92,255,.25), transparent 60%),
-        var(--bg);
-    }
-
-    .card{
-      max-width:900px;
-      margin:auto;
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      padding:18px;
-    }
-
-    h1{margin:0 0 8px}
-    .muted{color:var(--muted);font-size:13px}
-
-    label{font-weight:700;margin-top:14px;display:block}
-
-    textarea,input{
-      width:100%;
-      padding:12px;
-      margin-top:6px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background:#00000030;
-      color:var(--text);
-    }
-
-    textarea{min-height:130px}
-
-    .row{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:12px;
-    }
-
-    .row>*{flex:1;min-width:220px}
-
-    button{
-      padding:12px;
-      border-radius:14px;
-      border:1px solid var(--accent);
-      background:linear-gradient(135deg,var(--accent),#4f46e5);
-      color:white;
-      font-weight:800;
-      cursor:pointer;
-    }
-
-    button:disabled{opacity:.6;cursor:not-allowed}
-
-    /* progress */
-    .progress-box{
-      margin-top:14px;
-      display:none;
-    }
-
-    .progress{
-      height:14px;
-      background:#00000040;
-      border-radius:10px;
-      overflow:hidden;
-      border:1px solid var(--line);
-    }
-
-    .progress-bar{
-      height:100%;
-      width:0%;
-      background:linear-gradient(90deg,var(--accent),var(--ok));
-      transition:width .3s;
-    }
-
-    .progress-text{
-      font-size:12px;
-      margin-top:6px;
-      color:var(--muted);
-      text-align:center;
-    }
-
-    .log{
-      margin-top:14px;
-      background:#00000040;
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px;
-      white-space:pre-wrap;
-      font-size:13px;
-    }
-  </style>
-</head>
-
-<body>
-
-<div class="card">
-  <h1>📺 أداة دمج M3U</h1>
-  <div class="muted">دمج روابط وملفات M3U مع شريط تقدّم</div>
-
-  <label>روابط M3U (كل رابط في سطر):</label>
-  <textarea id="urls" placeholder="https://raw.githubusercontent.com/.../list.m3u"></textarea>
-
-  <label>أو اختر ملفات M3U:</label>
-  <input type="file" id="files" multiple accept=".m3u,.m3u8">
-
-  <div class="row">
-    <label><input type="checkbox" id="dedup" checked> حذف المكرر</label>
-    <label><input type="checkbox" id="sort"> ترتيب أبجدي</label>
-  </div>
-
-  <div class="row">
-    <input id="outname" value="merged.m3u">
-    <button id="start">دمج وتنزيل</button>
-  </div>
-
-  <!-- progress -->
-  <div class="progress-box" id="progressBox">
-    <div class="progress">
-      <div class="progress-bar" id="progressBar"></div>
-    </div>
-    <div class="progress-text" id="progressText">0%</div>
-  </div>
-
-  <div class="log" id="log">جاهز.</div>
-</div>
-
-<!-- ========== JavaScript ========== -->
-<script>
-const $ = id => document.getElementById(id);
-
-function log(msg){ $("log").textContent = msg; }
-
-function setProgress(percent){
-  $("progressBar").style.width = percent + "%";
-  $("progressText").textContent = percent + "%";
+<style>
+:root{
+  --bg:#0b0f17;
+  --card:#ffffff10;
+  --line:#ffffff20;
+  --text:#e9eef7;
+  --muted:#b7bfd0;
+  --accent:#7c5cff;
+  --ok:#22c55e;
+  --err:#ef4444;
+  --radius:16px;
 }
-
-function parseM3U(text){
-  const lines = text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
-  let list=[], ext=null;
-  for(const l of lines){
-    if(l.startsWith("#EXTM3U")) continue;
-    if(l.startsWith("#EXTINF")){ ext=l; continue; }
-    if(l.startsWith("#")) continue;
-    list.push({ext: ext || "#EXTINF:-1,Unknown", url:l});
-    ext=null;
-  }
-  return list;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+  background:var(--bg);
+  color:var(--text);
+  padding:18px;
 }
-
-async function fetchText(url){
-  const r = await fetch(url);
-  if(!r.ok) throw new Error("HTTP "+r.status);
-  return await r.text();
+.card{
+  max-width:900px;
+  margin:auto;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:18px;
 }
+h1{margin:0 0 6px}
+.muted{color:var(--muted);font-size:13px}
 
-async function readFile(file){
-  return new Promise((res,rej)=>{
-    const fr=new FileReader();
-    fr.onload=()=>res(fr.result||"");
-    fr.onerror=rej;
-    fr.readAsText(file);
-  });
+label{display:block;margin-top:14px;font-weight:700}
+textarea,input{
+  width:100%;
+  padding:12px;
+  margin-top:6px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#00000040;
+  color:var(--text);
 }
+textarea{min-height:130px}
 
-function download(name,text){
-  const blob=new Blob([text],{type:"audio/x-mpegurl;charset=utf-8"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download=name;
-  a.click();
-  URL.revokeObjectURL(a.href);
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+.row>*{flex:1;min-width:220px}
+
+button{
+  padding:12px;
+  border-radius:14px;
+  border:1px solid var(--accent);
+  background:linear-gradient(135deg,var(--accent),#4f46e5);
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
 }
+button:disabled{opacity:.6}
 
-$("start").onclick = async ()=>{
-  const urls = $("urls").value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
-  const files = [...$("files").files];
-  const total = urls.length + files.length;
-
-  if(!total){
-    log("⚠️ لا توجد مصادر.");
-    return;
-  }
-
-  $("start").disabled = true;
-  $("progressBox").style.display="block";
-  setProgress(0);
-
-  let entries=[], done=0;
-
-  try{
-    for(const u of urls){
-      try{
-        const t=await fetchText(u);
-        entries.push(...parseM3U(t));
-      }catch(e){
-        log("⚠️ فشل رابط:\n"+u);
-      }
-      done++;
-      setProgress(Math.round(done/total*100));
-    }
-
-    for(const f of files){
-      const t=await readFile(f);
-      entries.push(...parseM3U(t));
-      done++;
-      setProgress(Math.round(done/total*100));
-    }
-
-    if($("dedup").checked){
-      const s=new Set();
-      entries=entries.filter(e=>!s.has(e.url)&&(s.add(e.url),true));
-    }
-
-    if($("sort").checked){
-      entries.sort((a,b)=>a.ext.localeCompare(b.ext));
-    }
-
-    let out="#EXTM3U\n";
-    entries.forEach(e=>out+=e.ext+"\n"+e.url+"\n");
-
-    log("✅ تم الدمج بنجاح\n📺 القنوات: "+entries.length);
-    download($("outname").value||"merged.m3u",out);
-
-  }catch(e){
-    log("❌ خطأ: "+e.message);
-  }finally{
-    $("start").disabled=false;
-  }
-};
-</script>
-
-</body>
-</html>
+.progress-box{display:none;margin-top:14px}
+.progress{
+  height:14px;
+  background:#00000050;
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid var(--line);
+}
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--accent),var(--ok
